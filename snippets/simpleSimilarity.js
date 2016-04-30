@@ -50,7 +50,7 @@ instance.getDispatcher().on('ready', function(obj) {
             var compared = annotations[0].id === '55328' ? annotations[0] : annotations[1];
             var similarity = instance.calculateSimilarity(query, [compared], false);
             console.log(similarity);
-            //console.log(JSON.stringify(similarity));
+            console.log(JSON.stringify(similarity));
         }
     }
 });
