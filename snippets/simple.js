@@ -55,7 +55,7 @@ instance.getDispatcher().on('ready', function(obj) {
             ids.splice(index, 1);
         }
         if (ids.length === 0) {
-            var dist = instance.calculateDistribution(annotations, true);
+            var dist = instance.calculateDistribution(annotations, false, ['ANAT', 'GENE', 'GNPT']);
             console.log(dist);
             console.log(JSON.stringify(dist));
         }
