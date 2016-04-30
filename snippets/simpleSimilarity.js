@@ -5,9 +5,9 @@ yourDiv.appendChild(appDiv);
 var app = require("biotea-io-parser");
 var instance = new app();
 
-var ids = ['13914', '32300'];
+var ids = ['117238', '55328'];
 var annotations = [];
-instance.loadAnnotations('http://localhost:9090/snippets/data/', '13914')
+instance.loadAnnotations('http://localhost:9090/snippets/data/', '117238')
     .done(function(loadedData) {
         console.log('annotations');
         console.log(loadedData);
@@ -17,7 +17,7 @@ instance.loadAnnotations('http://localhost:9090/snippets/data/', '13914')
         console.log(e);
     });
 
-instance.loadAnnotations('http://localhost:9090/snippets/data/', '32300')
+instance.loadAnnotations('http://localhost:9090/snippets/data/', '55328')
     .done(function(loadedData) {
         console.log('annotations');
         console.log(loadedData);
@@ -27,13 +27,13 @@ instance.loadAnnotations('http://localhost:9090/snippets/data/', '32300')
         console.log(e);
     });
 
-instance.loadDistribution('http://localhost:9090/snippets/data/', '32300')
+instance.loadSimilarity('http://localhost:9090/snippets/data/', '117238', '55328')
     .done(function(loadedData) {
-        console.log('distribution');
+        console.log('similarity');
         console.log(loadedData);
     })
     .fail( function(e) {
-        console.log('distribution');
+        console.log('similarity');
         console.log(e);
     });
 
@@ -41,13 +41,16 @@ instance.getDispatcher().on('ready', function(obj) {
     if (obj.type === 'annotation') {
         var index = ids.indexOf(obj.id);
         if (index !== -1) {
-            annotations.push({annotations: obj.data, id: obj.id, display: 'art PMC:' + obj.id})
+            annotations.push({annotations: obj.data, id: obj.id})
             ids.splice(index, 1);
         }
         if (ids.length === 0) {
-            var dist = instance.calculateDistribution(annotations, true);
-            console.log(dist);
-            console.log(JSON.stringify(dist));
+            console.log('calculated similarity');
+            var query = annotations[0].id === '117238' ? annotations[0] : annotations[1];
+            var compared = annotations[0].id === '55328' ? annotations[0] : annotations[1];
+            var similarity = instance.calculateSimilarity(query, [compared], false);
+            console.log(similarity);
+            //console.log(JSON.stringify(similarity));
         }
     }
 });
